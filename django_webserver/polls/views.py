@@ -22,10 +22,9 @@ def index(request):
     # return HttpResponse(template.render(context, request))
 
 
-    def index(request):   # -> render()을 이용한 템플릿 shortcut
-        latest_question_list = Question.objects.order_by("-pub_date")[:5]
-        context = {"latest_question_list": latest_question_list}
-        return render(request, "polls/index.html", context)
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    context = {"latest_question_list": latest_question_list}
+    return render(request, "polls/index.html", context)
     
     # context is a dictionary mapping template variable names to Python objects.
 
