@@ -6,7 +6,4 @@ app_name = "home"
 
 urlpatterns = [
     path("", ),
-    path("login/", ),
-    path("logout/", ),
-    path("register/", ),
 ]
