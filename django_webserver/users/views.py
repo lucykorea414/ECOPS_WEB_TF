@@ -1,17 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .forms import UserForm
 
 # Create your views here.
 
-def login(request):
-    # if request.method == 'POST':
-    #     data = JSONParser().parse(request)
-    #     search_email = data['email']
-    #     obj = Account.objects.get(email=search_email)
-
-    #     if data['password'] == obj.password:
-    #         return HttpResponse(status=200)
-    #     else:
-    #         return HttpResponse(status=400)
-    # elif request.method == "GET":
-    #     return render(request, 'users/login.html')
-    return render(request, 'users/login.html')
+def register(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)  # 사용자 인증
+            login(request, user)  # 로그인
+            return redirect('home:mainpage')
+    else:
+        form = UserForm()
+    return render(request, 'users/register.html', {'form': form})
