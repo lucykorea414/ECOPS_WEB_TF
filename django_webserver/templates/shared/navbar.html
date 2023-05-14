@@ -1,8 +1,16 @@
+{% load static %}
 <div class="navigation">
     <div>
       <span>
         <a href="{% url 'home:mainpage' %}">HOME</a>
       </span>
+    </div>
+    <div>
+        <img
+        src="{% static 'image/me.jpg' %}"
+        alt="MyImage"
+        height="100"
+      />
     </div>
 
     {% if user.is_authenticated %} 
