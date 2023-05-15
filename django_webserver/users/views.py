@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import UserForm
+# from .forms import UserForm
+from . import forms
 
 # Create your views here.
 
 def register(request):
     if request.method == "POST":
-        form = UserForm(request.POST)
+        form = forms.UserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -15,5 +16,5 @@ def register(request):
             login(request, user)  # 로그인
             return redirect('home:mainpage')
     else:
-        form = UserForm()
+        form = forms.UserForm()
     return render(request, 'users/register.html', {'form': form})
