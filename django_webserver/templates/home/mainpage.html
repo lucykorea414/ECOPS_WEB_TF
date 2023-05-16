@@ -4,6 +4,8 @@
     Hello! MainPage 입니다.
 </h1>
 
+{% if user.is_authenticated %} 
 <h2>
     <a href="{% url 'polls:index'%}">Polls 보기</a>
 </h2>
+{% endif %}
