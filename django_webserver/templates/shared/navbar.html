@@ -5,21 +5,17 @@
         <a href="{% url 'home:mainpage' %}">HOME</a>
       </span>
     </div>
-    <div>
-        <img
+    <img
         src="{% static 'image/me.jpg' %}"
         alt="MyImage"
         height="100"
-      />
-    </div>
+    />
 
     {% if user.is_authenticated %} 
-    <a href="{% url 'users:logout' %}">{{ user.username }}님 로그아웃</a>
+    <a href="{% url 'users:logout' %}"> {{ user.username }}님 로그아웃</a>
     {% else %}
-    <a href="{% url 'users:login' %}">로그인</a> 
-    <span>또는 
-        <a href="{% url 'users:register' %}">회원가입</a>
-    </span>
+    <a href="{% url 'users:login' %}"> || 로그인 || </a> 
+    <a href="{% url 'users:register' %}"> || 회원가입 ||</a>
     {% endif %}
     
 </div>
