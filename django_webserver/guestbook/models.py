@@ -6,7 +6,7 @@ from django.conf import settings
 class Guestbook(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     writer = models.ForeignKey(settings.AUTH_USER_MODEL)
-    contents = models.TextField()
+    contents = models.TextField(max_length=40)
     reg_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
