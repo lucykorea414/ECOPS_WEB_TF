@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
 
@@ -10,3 +11,11 @@ class Profile(models.Model):
     profile_photo = models.ImageField(blank=True)
     note = models.TextField(blank=True, help_text="자기소개를 작성해보세요!", editable=True)
 
+class Comment(models.Model):
+    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    writer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField(max_length=200)
+    created_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.text

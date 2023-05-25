@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
 # from .forms import UserForm
 from . import forms
+from models import Comment
 
 # Create your views here.
 
@@ -18,3 +21,13 @@ def register(request):
     else:
         form = forms.UserForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+@login_required
+class CommentCreate(CreateView):
+    model = Comment
+    fields = ['to_user', 'text']
+
+    def form_valid(self, form):
+        form.instance.writer = self.request.user
+        return super().form_valid(form)
