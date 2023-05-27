@@ -1,10 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.views import View
+# from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView
+from django.views.generic.detail import DetailView
 # from .forms import UserForm
 from . import forms
-from models import Comment
+# from models import Comment, Profile
 
 # Create your views here.
 
@@ -23,11 +28,17 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-@login_required
-class CommentCreate(CreateView):
-    model = Comment
-    fields = ['to_user', 'text']
+class ProfileView(DetailView):
+    context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
+    model = User
+    template_name = 'users/profile.html'
 
-    def form_valid(self, form):
-        form.instance.writer = self.request.user
-        return super().form_valid(form)
+
+# @login_required
+# class CommentCreate(CreateView):
+#     model = Comment
+#     fields = ['to_user', 'text']
+
+#     def form_valid(self, form):
+#         form.instance.writer = self.request.user
+#         return super().form_valid(form)

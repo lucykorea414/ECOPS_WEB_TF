@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Profile, Comment
+from .models import Profile # , Comment
 
 # Register your models here.
 
@@ -16,4 +16,6 @@ class CustomUserAdmin(UserAdmin):
 # 기존의 User의 등록을 취소했다가 User와 ProfileInline을 붙임.
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Comment)
+
+
+# admin.site.register(Comment)
