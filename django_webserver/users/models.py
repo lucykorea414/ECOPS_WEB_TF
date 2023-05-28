@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
+from django.urls import reverse_lazy, reverse
 
 # Create your models here.
 
@@ -13,6 +14,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+    
+    def get_absolute_url(self):
+        return reverse('users:profile', args=[self.pk])
     
 
 # class Comment(models.Model):
