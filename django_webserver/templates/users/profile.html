@@ -12,18 +12,18 @@
 
     <div class="col-xs-6 col-md-3">
         
-        {% if user == profile_user %}   <!-- 로그인한 사용자와 profile_user(프로필 소유자)가 일치할 때만 프로필 편집이 가능하도록 함 -->
+        {% if user == profile.user %}   <!-- 로그인한 사용자와 profile_user(프로필 소유자)가 일치할 때만 프로필 편집이 가능하도록 함 -->
         <a href="{% url 'users:profile_edit' user.pk %}">프로필 편집</a>
         {% endif %}
-        <h3> username: {{profile_user.username}} <br>
+        <h3> username: {{profile.user.username}} <br>
         </h3>
         
-        {% if profile_user.profile.nickname %}
-        <h3>nickname: {{profile_user.profile.nickname}} <br></h3>
+        {% if profile.nickname %}
+        <h3>nickname: {{profile.nickname}} <br></h3>
         {% endif %}
 
-        {% if profile_user.profile.note %}
-        <h3> note: {{profile_user.profile.note}} <br>
+        {% if profile.note %}
+        <h3> note: {{profile.note}} <br>
         </h3>
         {% endif %}
     </div>
@@ -38,7 +38,7 @@
     </ul>
 
     <!-- 댓글 작성 폼 -->
-    <form method="post" action="{% url 'users:add_comment' profile_user.id%}">
+    <form method="post" action="{% url 'users:add_comment' pk=profile.pk %}">
         {% csrf_token %}
         <textarea name="content" rows="4" cols="50"></textarea><br>
         <input type="submit" value="Add Comment">
