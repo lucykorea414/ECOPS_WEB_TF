@@ -27,4 +27,21 @@
         </h3>
         {% endif %}
     </div>
+
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.content }} - {{ comment.user.username }} ({{ comment.created_at }})</li>
+        {% empty %}
+            <li>No comments yet.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- 댓글 작성 폼 -->
+    <form method="post" action="{% url 'add_comment' %}">
+        {% csrf_token %}
+        <textarea name="content" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Add Comment">
+    </form>
+
 </div>
