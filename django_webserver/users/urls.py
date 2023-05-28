@@ -12,4 +12,5 @@ urlpatterns = [
     path("register/", views.register, name='register'),
     path('profile/<int:pk>', login_required(views.ProfileView.as_view()), name='profile'),
     path('profile_edit/<int:pk>', login_required(views.EditProfileView.as_view()), name='profile_edit'),
+    path('add_comment/<int:pk>', views.add_comment, name='add_comment'),
 ]

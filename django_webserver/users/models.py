@@ -23,7 +23,7 @@ class Comment(models.Model):
     to_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     from_user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField(max_length=200)
-    created_date = models.DateTimeField(default=timezone.now, auto_now_add=True)
+    created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.from_user.username} - {self.content}"

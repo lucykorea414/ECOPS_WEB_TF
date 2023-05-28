@@ -51,3 +51,17 @@ class EditProfileView(UpdateView):
 #     def form_valid(self, form):
 #         form.instance.writer = self.request.user
 #         return super().form_valid(form)
+
+@login_required
+def add_comment(request):
+    if request.method == 'POST':
+        form = forms.CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.profile = request.user.profile
+            comment.save()
+            return redirect('profile', username=request.user.username)
+    else:
+        form = forms.CommentForm()
+    return render(request, 'add_comment.html', {'form': form})
