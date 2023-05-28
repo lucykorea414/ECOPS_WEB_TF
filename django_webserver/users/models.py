@@ -20,10 +20,10 @@ class Profile(models.Model):
     
 
 class Comment(models.Model):
-    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    writer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    text = models.TextField(max_length=200)
-    created_date = models.DateTimeField(default=timezone.now)
+    to_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    from_user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField(max_length=200)
+    created_date = models.DateTimeField(default=timezone.now, auto_now_add=True)
 
     def __str__(self):
-        return self.text
+        return f"{self.from_user.username} - {self.content}"
