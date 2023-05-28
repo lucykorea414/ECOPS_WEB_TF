@@ -28,3 +28,4 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['nickname', 'note', 'profile_photo'] 
+        widgets = {'profile_photo': forms.FileInput(attrs={'accept': 'image/*'})}
