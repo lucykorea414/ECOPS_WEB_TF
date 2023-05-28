@@ -19,11 +19,11 @@ class Profile(models.Model):
         return reverse('users:profile', args=[self.pk])
     
 
-# class Comment(models.Model):
-#     to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     writer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     text = models.TextField(max_length=200)
-#     created_date = models.DateTimeField(default=timezone.now)
+class Comment(models.Model):
+    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    writer = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField(max_length=200)
+    created_date = models.DateTimeField(default=timezone.now)
 
-#     def __str__(self):
-#         return self.text
+    def __str__(self):
+        return self.text
