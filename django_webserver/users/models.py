@@ -9,7 +9,7 @@ from django.urls import reverse_lazy, reverse
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 한계정의 사용자를 가져옴
     nickname = models.CharField(max_length=40)
-    profile_photo = models.ImageField(null=True, blank=True, upload_to='profile_images')
+    profile_photo = models.ImageField(null=True, blank=True, upload_to='profile_images/')
     note = models.TextField(blank=True, help_text="자기소개를 작성해보세요!", editable=True)
 
     def __str__(self):
@@ -17,6 +17,9 @@ class Profile(models.Model):
     
     def get_absolute_url(self):
         return reverse('users:profile', args=[self.pk])
+    
+    def get_image_url(self):
+        return '%s%s' %(settings.MEDIA_URL, self.profile_photo)
     
 
 class Comment(models.Model):

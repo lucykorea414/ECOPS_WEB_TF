@@ -46,7 +46,7 @@ def profile_edit_view(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
 
     if request.method == 'POST':
-        form = forms.ProfileForm(request.POST, instance=profile)
+        form = forms.ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             return redirect('users:profile', pk=pk)
