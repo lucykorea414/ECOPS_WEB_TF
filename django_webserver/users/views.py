@@ -11,6 +11,7 @@ from django.views.generic.detail import DetailView
 # from .forms import UserForm
 from . import forms
 from .models import Comment, Profile
+from django.contrib import messages
 
 # Create your views here.
 
@@ -116,10 +117,13 @@ def add_comment_view(request, pk):
         comment_form = forms.CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
-            comment.user = request.user
-            comment.profile = profile
-            comment.save()
-            return redirect('users:profile', pk=pk)
+            if comment.content:
+                comment.user = request.user
+                comment.profile = profile
+                comment.save()
+                return redirect('users:profile', pk=pk)
+            else:
+                messages.error(request, '댓글을 입력해주세요.')
     else:
         comment_form = forms.CommentForm()
 

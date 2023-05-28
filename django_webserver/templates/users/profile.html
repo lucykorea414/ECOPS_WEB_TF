@@ -38,10 +38,24 @@
     </ul>
 
     <!-- 댓글 작성 폼 -->
-    <form method="post" action="{% url 'users:add_comment' pk=profile.pk %}">
+    <form id="commentForm" method="post" action="{% url 'users:add_comment' pk=profile.pk %}">
         {% csrf_token %}
-        <textarea name="content" rows="4" cols="50"></textarea><br>
-        <input type="submit" value="Add Comment">
+        <!-- <textarea name="content" rows="4" cols="50"></textarea><br> -->
+        {{ comment_form.as_p }}
+        <button id="commentBtn" class ="btn btn-secondary" type="submit">Add Comment</button>
     </form>
+
+    <script>
+        const commentForm = document.getElementById('commentForm');
+        const commentBtn = document.getElementById('commentBtn');
+      
+        commentForm.addEventListener('input', function() {
+          if (commentForm.checkValidity()) {
+            commentBtn.removeAttribute('disabled');
+          } else {
+            commentBtn.setAttribute('disabled', 'disabled');
+          }
+        });
+      </script>
 
 </div>
