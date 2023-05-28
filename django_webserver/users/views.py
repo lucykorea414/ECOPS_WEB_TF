@@ -35,11 +35,30 @@ def register(request):
 #     template_name = 'users/profile.html'
 
 
-class EditProfileView(UpdateView):
-    context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
-    model = Profile
-    template_name = 'users/profile_edit.html'
-    fields = ['nickname', 'profile_photo', 'note']
+# class EditProfileView(UpdateView):
+#     context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
+#     model = Profile
+#     template_name = 'users/profile_edit.html'
+#     fields = ['nickname', 'profile_photo', 'note']
+
+
+def profile_edit_view(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+
+    if request.method == 'POST':
+        form = forms.ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', pk=pk)
+    else:
+        form = forms.ProfileForm(instance=profile)
+
+    context = {
+        'form': form,
+        'profile': profile
+    }
+    return render(request, 'users/profile_edit.html', context)
+
 
 def profile_view(request, pk):
     user = get_object_or_404(User, pk=pk)
