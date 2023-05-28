@@ -49,7 +49,7 @@ def profile_edit_view(request, pk):
         form = forms.ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile', pk=pk)
+            return redirect('users:profile', pk=pk)
     else:
         form = forms.ProfileForm(instance=profile)
 
