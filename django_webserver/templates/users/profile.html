@@ -38,7 +38,7 @@
     </ul>
 
     <!-- 댓글 작성 폼 -->
-    <form method="post" action="{% url 'add_comment' %}">
+    <form method="post" action="{% url 'users:add_comment' profile_user.id%}">
         {% csrf_token %}
         <textarea name="content" rows="4" cols="50"></textarea><br>
         <input type="submit" value="Add Comment">
