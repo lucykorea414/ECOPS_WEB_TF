@@ -6,4 +6,4 @@ class UsersConfig(AppConfig):
     name = "users"
 
     def ready(self):
-        import users.signals  # 해당 줄을 추가합니다
+        import users.signals
