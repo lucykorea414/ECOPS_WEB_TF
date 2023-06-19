@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views import View
@@ -28,19 +29,6 @@ def register(request):
     else:
         form = forms.UserForm()
     return render(request, 'users/register.html', {'form': form})
-
-
-# class ProfileView(DetailView):
-#     context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
-#     model = User
-#     template_name = 'users/profile.html'
-
-
-# class EditProfileView(UpdateView):
-#     context_object_name = 'profile_user' # model로 지정해준 User모델에 대한 객체와 로그인한 사용자랑 명칭이 겹쳐버리기 때문에 이를 지정해줌.
-#     model = Profile
-#     template_name = 'users/profile_edit.html'
-#     fields = ['nickname', 'profile_photo', 'note']
 
 
 def profile_edit_view(request, pk):
@@ -85,30 +73,6 @@ def profile_view(request, pk):
     return render(request, 'users/profile.html', context)
 
 
-# @login_required
-# class CommentCreate(CreateView):
-#     model = Comment
-#     fields = ['to_user', 'text']
-
-#     def form_valid(self, form):
-#         form.instance.writer = self.request.user
-#         return super().form_valid(form)
-
-# @login_required
-# def add_comment(request):
-#     if request.method == 'POST':
-#         form = forms.CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.user = request.user
-#             comment.profile = request.user.profile
-#             comment.save()
-#             return redirect('profile', username=request.user.username)
-#     else:
-#         form = forms.CommentForm()
-#     return render(request, 'add_comment.html', {'form': form})
-
-
 @login_required
 def add_comment_view(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
@@ -132,3 +96,20 @@ def add_comment_view(request, pk):
         'comment_form': comment_form
     }
     return render(request, 'users/add_comment.html', context)
+
+@login_required
+def change_password(request, pk):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important! -> 세션 유지
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('users:profile', pk=pk)
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'users/change_password.html', {
+        'form': form
+    })

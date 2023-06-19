@@ -30,10 +30,10 @@ class ProfileForm(forms.ModelForm):
         fields = ['nickname', 'note', 'profile_photo'] 
         widgets = {'profile_photo': forms.FileInput(attrs={'accept': 'image/*'})}
 
-class CustomPasswordChangeForm(PasswordChangeForm):
-    def clean_new_password2(self):
-        new_password1 = self.cleaned_data.get('new_password1')
-        new_password2 = self.cleaned_data.get('new_password2')
-        if new_password1 and new_password2 and new_password1 != new_password2:
-            raise forms.ValidationError("새 비밀번호가 일치하지 않습니다.")
-        return new_password2
+# class CustomPasswordChangeForm(PasswordChangeForm):
+#     def clean_new_password2(self):
+#         new_password1 = self.cleaned_data.get('new_password1')
+#         new_password2 = self.cleaned_data.get('new_password2')
+#         if new_password1 and new_password2 and new_password1 != new_password2:
+#             raise forms.ValidationError("새 비밀번호가 일치하지 않습니다.")
+#         return new_password2
