@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.views import View
@@ -48,19 +48,14 @@ def profile_edit_view(request, pk):
 
     if request.method == 'POST':
         form = forms.ProfileForm(request.POST, request.FILES, instance=profile)
-        password_form = forms.CustomPasswordChangeForm(User, request.POST)
-        if form.is_valid() and password_form.is_valid():
+        if form.is_valid():
             form.save()
-            user = password_form.save()
-            update_session_auth_hash(request, User) # 세션 인증 유지
             return redirect('users:profile', pk=pk)
     else:
         form = forms.ProfileForm(instance=profile)
-        password_form = forms.CustomPasswordChangeForm(User)
 
     context = {
         'form': form,
-        'password_form': password_form,
         'profile': profile
     }
     return render(request, 'users/profile_edit.html', context)

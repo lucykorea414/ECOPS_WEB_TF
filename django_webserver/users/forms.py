@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Comment, Profile
 
@@ -32,9 +32,8 @@ class ProfileForm(forms.ModelForm):
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     def clean_new_password2(self):
-        old_password = self.cleaned_data.get('old_password')
         new_password1 = self.cleaned_data.get('new_password1')
         new_password2 = self.cleaned_data.get('new_password2')
-        if old_password and new_password1 and new_password2 and new_password1 != new_password2:
+        if new_password1 and new_password2 and new_password1 != new_password2:
             raise forms.ValidationError("새 비밀번호가 일치하지 않습니다.")
         return new_password2
